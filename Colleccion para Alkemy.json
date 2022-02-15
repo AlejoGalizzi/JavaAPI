@@ -1,0 +1,800 @@
+{
+	"info": {
+		"_postman_id": "b034bde5-46ba-4309-8e3c-81bacd24d790",
+		"name": "Colleccion para Alkemy",
+		"description": "Esta es una colección de peticiones que se presentaran para el challenge de Alkemy del lenguaje de java, utilizando el framework Spring Boot.\n\nPara este challenge se opto por no realizar tests.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Registrarse en la pagina",
+			"protocolProfileBehavior": {
+				"strictSSL": false,
+				"disableUrlEncoding": true
+			},
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"username\":\"alejo\",\r\n    \"email\": \"alejogalizzi@gmail.com\",\r\n    \"password\": \"1234\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8040/auth/register",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8040",
+					"path": [
+						"auth",
+						"register"
+					]
+				},
+				"description": "Este endpoint registra un usuario dentro de la API. En el body se pide un username, un email y una contraseña. Luego que el usuario se registre se le enviara un correo con un pequeño mensaje de bienvenida.\n\nTodos las variables del body son obligatorias, no pueden estar en blanco.\n\nEl mail debe tener un formato apropiado de email.\n\nLa password debe tener entre 4 y 16 caracteres.\n\nSi alguna de las variables es incorrecta se obtendra un status \"Bad_request\" y se mostrara una lista \"errors\" con los errores."
+			},
+			"response": []
+		},
+		{
+			"name": "Loguearse en la pagina",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\": \"alejogalizzi@gmail.com\",\r\n    \"password\": \"1234\"  \r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8040/auth/login",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8040",
+					"path": [
+						"auth",
+						"login"
+					]
+				},
+				"description": "Este endpoint loguea un usuario dentro de la API. En el body se pide un email y una contraseña. Luego que el usuario se registre se le concera un token, el cual tendra que colocar en los demas endpoints. Al ingresar a los endpoints subsiguiente, debera ingresar este token en la seccion de autentificacion y dentro, en la opcion \"Bearer token\". Si no se ingresa nada, o se ingresa un token incorrecto, se devolvera un response body con un mensaje (indicando la causa de porque fallo) y un status 500 indicando un Internal Server Error.\n\nEl email y la password son obligatorios, no pueden estar en blanco.\n\nEl mail debe tener un formato apropiado de email.\n\nLa password debe tener entre 4 y 16 caracteres.\n\nSi alguna de las variables es incorrecta se obtendra un status \"Bad_request\" y se mostrara una lista \"errors\" con los errores."
+			},
+			"response": []
+		},
+		{
+			"name": "Ver Peliculas",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhbGVqbyIsInVzZXJJZCI6IjEiLCJyb2xlIjoiQWRtaW4ifQ.qN6c_2lK3-1mcsBz-etPSM-FAKkT7r4CTL4PeUn6D6E",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8040/api/movies",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8040",
+					"path": [
+						"api",
+						"movies"
+					]
+				},
+				"description": "Este endpoint muestra todas las peliculas. No se requiere pasarle nada dentro del body.\n\nOpcionalemnte, dentro de los query params se puede poner un param \"order\" cuyos valores validos son \"ASC\"(para ordernar en orden ascendente) y \"DESC\"(para ordenar en orden descendente)."
+			},
+			"response": []
+		},
+		{
+			"name": "Ver Pelicula por ID",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhbGVqbyIsInVzZXJJZCI6IjEwIiwicm9sZSI6IkFkbWluIn0.G4WA6yE1uYbBak94OGHOpSyrPDmaIdhUz8IB7Fmw0CU",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8040/api/movies/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8040",
+					"path": [
+						"api",
+						"movies",
+						"1"
+					]
+				},
+				"description": "Este endpoint muestra la pelicula que coincida con el id que se pasa dentro del url (Para el ejemplo se uso el id 2). No se requiere pasarle nada dentro del body.\n\nSi no existe una pelicula con este id se devolvera una respuesta de la solicitud con el estado \"Not_found\"."
+			},
+			"response": []
+		},
+		{
+			"name": "Ver Peliculas Por Nombre",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhbGVqbyIsInVzZXJJZCI6IjEwIiwicm9sZSI6IkFkbWluIn0.G4WA6yE1uYbBak94OGHOpSyrPDmaIdhUz8IB7Fmw0CU",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8040/api/movies?name=Captain America: The First Avenger",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8040",
+					"path": [
+						"api",
+						"movies"
+					],
+					"query": [
+						{
+							"key": "name",
+							"value": "Captain America: The First Avenger"
+						}
+					]
+				},
+				"description": "Este endpoint muestra todas las peliculas filtradas nombre, si una pelicula coincide con el nombre que se pasa como query param, se mostrara(suponiendo que hay varias peliculas con el mismo nombre). No se requiere pasarle nada dentro del body.\n\nOpcionalemnte, dentro de los query params se puede poner un param \"order\" cuyos valores validos son \"ASC\"(para ordernar en orden ascendente) y \"DESC\"(para ordenar en orden descendente)."
+			},
+			"response": []
+		},
+		{
+			"name": "Ver Peliculas Por Genero",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhbGVqbyIsInVzZXJJZCI6IjEwIiwicm9sZSI6IkFkbWluIn0.G4WA6yE1uYbBak94OGHOpSyrPDmaIdhUz8IB7Fmw0CU",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8040/api/movies?genre=1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8040",
+					"path": [
+						"api",
+						"movies"
+					],
+					"query": [
+						{
+							"key": "genre",
+							"value": "1"
+						}
+					]
+				},
+				"description": "Este endpoint muestra todas las peliculas filtradas genero, si una pelicula coincide con el genero que se pasa como query param, se mostrara. No se requiere pasarle nada dentro del body.\n\nOpcionalemnte, dentro de los query params se puede poner un param \"order\" cuyos valores validos son \"ASC\"(para ordernar en orden ascendente) y \"DESC\"(para ordenar en orden descendente)."
+			},
+			"response": []
+		},
+		{
+			"name": "Ver Generos",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhbGVqbyIsInVzZXJJZCI6IjEwIiwicm9sZSI6IkFkbWluIn0.G4WA6yE1uYbBak94OGHOpSyrPDmaIdhUz8IB7Fmw0CU",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8040/api/movies/genres",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8040",
+					"path": [
+						"api",
+						"movies",
+						"genres"
+					]
+				},
+				"description": "Este endpoint muestra todos los generos. No se requiere pasarle nada dentro del body.\n\nAl no solicitarse en el challenge, no se le especifica un orden, aunque se podria. Este endpoint sirve para encontrar ids que luego se agregaran a las peliculas cuando se creen."
+			},
+			"response": []
+		},
+		{
+			"name": "Ver Personajes",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhbGVqbyIsInVzZXJJZCI6IjEwIiwicm9sZSI6IkFkbWluIn0.G4WA6yE1uYbBak94OGHOpSyrPDmaIdhUz8IB7Fmw0CU",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8040/api/characters",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8040",
+					"path": [
+						"api",
+						"characters"
+					]
+				},
+				"description": "Este endpoint muestra todos los personajes. No se requiere pasarle nada dentro del body."
+			},
+			"response": []
+		},
+		{
+			"name": "Ver Personaje por Nombre",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhbGVqbyIsInVzZXJJZCI6IjEwIiwicm9sZSI6IkFkbWluIn0.G4WA6yE1uYbBak94OGHOpSyrPDmaIdhUz8IB7Fmw0CU",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8040/api/characters?nombre=Mickey Mouse",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8040",
+					"path": [
+						"api",
+						"characters"
+					],
+					"query": [
+						{
+							"key": "nombre",
+							"value": "Mickey Mouse"
+						}
+					]
+				},
+				"description": "Este endpoint muestra todos los generos. No se requiere pasarle nada dentro del body."
+			},
+			"response": []
+		},
+		{
+			"name": "Ver Personajes por Edad",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhbGVqbyIsInVzZXJJZCI6IjEwIiwicm9sZSI6IkFkbWluIn0.G4WA6yE1uYbBak94OGHOpSyrPDmaIdhUz8IB7Fmw0CU",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8040/api/characters?edad= 30",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8040",
+					"path": [
+						"api",
+						"characters"
+					],
+					"query": [
+						{
+							"key": "edad",
+							"value": " 30"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Ver Personajes por Peso",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhbGVqbyIsInVzZXJJZCI6IjEwIiwicm9sZSI6IkFkbWluIn0.G4WA6yE1uYbBak94OGHOpSyrPDmaIdhUz8IB7Fmw0CU",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8040/api/characters?peso=70",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8040",
+					"path": [
+						"api",
+						"characters"
+					],
+					"query": [
+						{
+							"key": "peso",
+							"value": "70"
+						}
+					]
+				},
+				"description": "Este endpoint muestra todos los personajes filtrados por peso, el cual se pasa a traves de un query param. No se requiere pasarle nada dentro del body."
+			},
+			"response": []
+		},
+		{
+			"name": "Ver Personajes por ID",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhbGVqbyIsInVzZXJJZCI6IjEwIiwicm9sZSI6IkFkbWluIn0.G4WA6yE1uYbBak94OGHOpSyrPDmaIdhUz8IB7Fmw0CU",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8040/api/characters/5",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8040",
+					"path": [
+						"api",
+						"characters",
+						"5"
+					]
+				},
+				"description": "Este endpoint muestra el personaje que coincide con el id que se pasa en el url.  No se requiere pasarle nada dentro del body."
+			},
+			"response": []
+		},
+		{
+			"name": "Ver Personajes de una Pelicula pasando un ID como query param",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8040/api/characters?movies=31",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8040",
+					"path": [
+						"api",
+						"characters"
+					],
+					"query": [
+						{
+							"key": "movies",
+							"value": "31"
+						}
+					]
+				},
+				"description": "Este endpoint muestra los personajes que pertenecen a una pelicula el cual se pasa su id en el url. No se requiere pasarle nada dentro del body."
+			},
+			"response": []
+		},
+		{
+			"name": "Crear Genero",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhbGVqbyIsInVzZXJJZCI6IjEiLCJyb2xlIjoiQWRtaW4ifQ.qN6c_2lK3-1mcsBz-etPSM-FAKkT7r4CTL4PeUn6D6E",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"nombre\":\"Infantil\"\r\n  }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8040/api/movies/genres/create",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8040",
+					"path": [
+						"api",
+						"movies",
+						"genres",
+						"create"
+					]
+				},
+				"description": "Este endpoint crea un genero en la base de datos. Tener en cuenta el genero no puede estar vacio o nulo."
+			},
+			"response": []
+		},
+		{
+			"name": "Crear Pelicula",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhbGVqbyIsInVzZXJJZCI6IjEiLCJyb2xlIjoiQWRtaW4ifQ.qN6c_2lK3-1mcsBz-etPSM-FAKkT7r4CTL4PeUn6D6E",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"titulo\":\"Captain America: The First Avenger\",\r\n    \"fecha_creacion\": \"2011-01-27\",\r\n    \"calificacion\": \"4\",\r\n    \"generoId\":\"1\"\r\n  }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8040/api/movies/create",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8040",
+					"path": [
+						"api",
+						"movies",
+						"create"
+					]
+				},
+				"description": "Este endpoint crea una pelicula en la base de datos. Tener en cuenta que para crearla debe existir un genero al cual se le asignara.\n\nDentro del body se deben introducir los siguientes datos: \n-titulo (obligatorio y no puede estar en blanco)\n-fecha_creacion (obligatorio y no puede estar en blanco)\n-calificacion (obligatorio y no puede estar en blanco)\n-generoId (obligatorio y no puede estar en blanco)\n-imagen (puede ser nulo)"
+			},
+			"response": []
+		},
+		{
+			"name": "Crear Personaje",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhbGVqbyIsInVzZXJJZCI6IjEiLCJyb2xlIjoiQWRtaW4ifQ.qN6c_2lK3-1mcsBz-etPSM-FAKkT7r4CTL4PeUn6D6E",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"nombre\":\"Stitch\",\r\n    \"edad\":\"20\",\r\n    \"peso\":\"\"\r\n  }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8040/api/characters/create",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8040",
+					"path": [
+						"api",
+						"characters",
+						"create"
+					]
+				},
+				"description": "Este endpoint crea un personaje en la base de datos. \n\nDentro del body se deben introducir los siguientes datos:\n-nombre (obligatorio y no puede estar en blanco)\n-edad (obligatorio, no puede estar en blanco y tiene que ser mayor o igual a 1)\n-peso (obligatorio, no puede estar en blanco y tiene que ser mayor o igual a 1)\n-imagen (puede ser nulo)\n-historia (puede ser nulo)"
+			},
+			"response": []
+		},
+		{
+			"name": "Asignar una pelicula con un personaje",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "\"eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhbGVqbyIsInVzZXJJZCI6IjI5Iiwicm9sZSI6IkFkbWluIn0.VizoBaiNpebjFaC7tCuF0Lg7ae1--vXOix86zORVt-Y\"",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"pelicula\":{\r\n        \"id\":\"31\"\r\n    },\r\n    \"personaje\":{\r\n        \"id\":\"3\"\r\n    }\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8040/api/characters/asignar_pelicula",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8040",
+					"path": [
+						"api",
+						"characters",
+						"asignar_pelicula"
+					]
+				},
+				"description": "Este endpoint asigna una pelicula con un personaje, en la api se realiza en una tabla aparte. Para esta solicitud se requiere un body con dos clase.\n\nClase de la pelicula:\n-id de la pelicula\n\nClase del personaje: \n-id del personaje"
+			},
+			"response": []
+		},
+		{
+			"name": "Eliminar Pelicula",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhbGVqbyIsInVzZXJJZCI6IjEwIiwicm9sZSI6IkFkbWluIn0.G4WA6yE1uYbBak94OGHOpSyrPDmaIdhUz8IB7Fmw0CU",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://localhost:8040/api/movies/33/delete",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8040",
+					"path": [
+						"api",
+						"movies",
+						"33",
+						"delete"
+					]
+				},
+				"description": "Este endpoint elimina una pelicula la cual se le pasa el id dentro del url, seguido de un /delete. No se requiere un body para esta solicitud.\n\nSi se elimino correctamente, la request devolvera un status 204 que que significa que se realizo con exito la eliminacion pero no se devolvio contenido."
+			},
+			"response": []
+		},
+		{
+			"name": "Eliminar Personaje",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhbGVqbyIsInVzZXJJZCI6IjEwIiwicm9sZSI6IkFkbWluIn0.G4WA6yE1uYbBak94OGHOpSyrPDmaIdhUz8IB7Fmw0CU",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://localhost:8040/api/characters/10/delete",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8040",
+					"path": [
+						"api",
+						"characters",
+						"10",
+						"delete"
+					]
+				},
+				"description": "Este endpoint elimina un personaje el cual se le pasa el id dentro del url, seguido de un /delete. No se requiere un body para esta solicitud.\n\nSi se elimino correctamente, la request devolvera un status 204 que que significa que se realizo con exito la eliminacion pero no se devolvio contenido."
+			},
+			"response": []
+		},
+		{
+			"name": "Editar Pelicula",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"titulo\":\"Goofy: The Movie\"\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8040/api/movies/27/update",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8040",
+					"path": [
+						"api",
+						"movies",
+						"27",
+						"update"
+					]
+				},
+				"description": "Este endpoint edita una pelicula, la cual se pasa el id en el url, seguido de /update. En el body se solicitan los valores de una pelicula que pueden ser nulos, y los que no esten nulos, se guardaran dentro de la pelicula que se paso por id.\n\nRecordatorio: Una pelicula tiene los siguientes datos\n-titulo \n-fecha_creacion \n-calificacion \n-generoId \n-imagen "
+			},
+			"response": []
+		},
+		{
+			"name": "Editar Personaje",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8040/api/characters/1/update",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8040",
+					"path": [
+						"api",
+						"characters",
+						"1",
+						"update"
+					]
+				},
+				"description": "Este endpoint edita un personaje, el cual se pasa el id en el url, seguido de /update. En el body se solicitan los valores de un personaje que pueden ser nulos, y los que no esten nulos, se guardaran dentro del personaje que se paso por id.\n\nRecordatorio: Un personaje tiene los siguientes datos\n-nombre \n-edad \n-peso \n-imagen \n-historia\n\n"
+			},
+			"response": []
+		}
+	]
+}
