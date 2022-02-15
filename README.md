@@ -1,4 +1,6 @@
-# AlkemyJavaChallenge
+<<<<<<< HEAD
+# JavaAPI
+Challenge to enter Alkemy
 
 Este documento establece como funcionara la api. Asi como datos para que se ingresen en los endpoints.
 
